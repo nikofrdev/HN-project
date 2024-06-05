@@ -6,16 +6,17 @@ import {
   autoUpdateStoriesThunk,
 } from "../../redux/thunkActions/storyThunkAction";
 import { Box } from "@mui/system";
-import { Card, CircularProgress, Grid, Pagination } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Card, CircularProgress, Grid, Pagination, Slide } from "@mui/material";
+import { Link } from "react-router-dom";
+import { TransitionGroup } from "react-transition-group";
 import OneNewForm from "../ui/OneNewForm";
+
 
 export default function NewsPage(): JSX.Element {
   const { data, status } = useAppSelector((state) => state.stories);
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
+   const [page, setPage] = useState(1);
   const [storiesPerPage] = useState(12);
-  const navigate = useNavigate();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -56,20 +57,25 @@ export default function NewsPage(): JSX.Element {
     setPage(value);
   };
 
-  
-
   return (
     <Box sx={{ backgroundColor: "bisque" }}>
       <Grid container spacing={3}>
-        {currentStories.map((story) => (
-          <Grid item xs={12} sm={5} md={4} key={story.id}>
-            <Card sx={{margin: '20px'}}>
-              <Link to={`/news/${story.id}`} style={{ textDecoration: "none" }} >
-              <OneNewForm story={story} />
-              </Link>
-            </Card>
-          </Grid>
-        ))}
+        <TransitionGroup component={null}>
+          {currentStories.map((story) => (
+            <Slide key={story.id} direction="up" in mountOnEnter unmountOnExit timeout={1000}>
+              <Grid item xs={12} sm={5} md={4}>
+                <Card sx={{ margin: "20px" }}>
+                  <Link
+                    to={`/news/${story.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <OneNewForm story={story} />
+                  </Link>
+                </Card>
+              </Grid>
+            </Slide>
+          ))}
+        </TransitionGroup>
       </Grid>
       <Box display="flex" justifyContent="center" mt={4}>
         <Pagination

@@ -4,7 +4,7 @@ export type StoryType = {
   score: number;
   title: string;
   time: number;
-  kids?: number[];
+  kids: number[];
 };
 
 export type StoryState = {

@@ -19,7 +19,7 @@ Official [Hacker News API](https://github.com/HackerNews/API)
 ## Setup
 
 - clone repo
-- cd hackernews-app
+- cd HN-project
 - npm install
 - npm run dev
 - and browser open by default to http://localhost:3000
